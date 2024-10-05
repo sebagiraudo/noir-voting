@@ -1,22 +1,22 @@
 use dep::std;
 
 fn main(root: pub Field, hash_paths: [Field; 2], index: Field, secret: Field) {
-    let commitment = std::hash::pedersen([secret])[0];
+    let commitment = std::hash::pedersen_hash([secret]);
     let check_root = std::merkle::compute_merkle_root(commitment, index, hash_paths);   
     assert (check_root == root);
 }
 
 #[test]
 fn main_test() {
-    let comm_1 = std::hash::pedersen([1])[0];
-    let comm_2 = std::hash::pedersen([2])[0];
-    let comm_3 = std::hash::pedersen([3])[0];
-    let comm_4 = std::hash::pedersen([4])[0];
+    let comm_1 = std::hash::pedersen_hash([1]);
+    let comm_2 = std::hash::pedersen_hash([2]);
+    let comm_3 = std::hash::pedersen_hash([3]);
+    let comm_4 = std::hash::pedersen_hash([4]);
 
-    let left_branch = std::hash::pedersen([comm_1, comm_2])[0];
-    let right_branch = std::hash::pedersen([comm_3, comm_4])[0];
+    let left_branch = std::hash::pedersen_hash([comm_1, comm_2]);
+    let right_branch = std::hash::pedersen_hash([comm_3, comm_4]);
     
-    let root = std::hash::pedersen([left_branch,  right_branch])[0];
+    let root = std::hash::pedersen_hash([left_branch,  right_branch]);
 
     let hash_paths = [comm_2, right_branch];
 
